@@ -28,6 +28,7 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/my-docker-app:latest
 
+
     # Step to set up the SSH agent
     - name: Set up SSH agent
       uses: webfactory/ssh-agent@v0.5.3
