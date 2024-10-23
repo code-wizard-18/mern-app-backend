@@ -28,9 +28,13 @@ jobs:
         push: true
         tags: ${{ secrets.DOCKER_USERNAME }}/my-docker-app:latest
 
-    - name: SSH to EC2 and run Docker
+    # Step to set up the SSH agent
+    - name: Set up SSH agent
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+
+    # Separate step to SSH into EC2 and run the Docker container
+    - name: SSH to EC2 and run Docker
       run: |
         ssh -o StrictHostKeyChecking=no ubuntu@54.161.109.115 "docker pull ${{ secrets.DOCKER_USERNAME }}/my-docker-app:latest && docker run -d -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/my-docker-app:latest"
