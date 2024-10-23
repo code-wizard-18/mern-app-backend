@@ -37,12 +37,7 @@ jobs:
       # Separate step to SSH into EC2 and run the Docker container
       - name: SSH to EC2 and run Docker
         run: |
-          ssh -o StrictHostKeyChecking=no ubuntu@54.161.109.115 << 'EOF'
-            # Stop and remove the existing container if it exists
-            if [ "$(sudo docker ps -q -f name=my-docker-app)" ]; then
-                sudo docker stop my-docker-app
-                sudo docker rm my-docker-app
-            fi
+          ssh -o StrictHostKeyChecking=no ubuntu@54.161.109.115 "sudo docker pull ${{ secrets.DOCKER_USERNAME }}/my-docker-app:latest && sudo docker run -d -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/my-docker-app:latest"
 
             # Pull the latest image and run the new container
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/my-docker-app:latest 
